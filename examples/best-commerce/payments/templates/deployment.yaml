@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  # Release.Name identifies the Helm release.
+  # Chart.Name identifies the chart.
+  name: {{ .Release.Name }}-{{ .Chart.Name }}
+
+  labels:
+    app: {{ .Chart.Name }}
+
+spec:
+  # One replica is sufficient for this demonstration.
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+
+          # Image repository and tag come from values.yaml.
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+
+          # BusyBox prints the application message and remains alive.
+          command:
+            - sh
+            - -c
+            - 'echo {{ .Values.appMessage }}; sleep 3600'
+
+          # Pull policy also comes from values.yaml.
+          imagePullPolicy: {{ .Values.image.pullPolicy }}

@@ -1,0 +1,17 @@
+# Default values for the payments chart.
+
+image:
+  # Container image used by the demonstration application.
+  repository: busybox
+
+  # Demonstration tag.
+  #
+  # Production applications should normally pin an immutable version
+  # or image digest instead of using "latest".
+  tag: latest
+
+  # Pull the image when it is not already present on the node.
+  pullPolicy: IfNotPresent
+
+# Message printed by the BusyBox container.
+appMessage: "Payments Service"
